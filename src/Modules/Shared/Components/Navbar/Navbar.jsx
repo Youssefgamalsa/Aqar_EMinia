@@ -124,9 +124,10 @@ function Navbar() {
                       component={Link}
                       to={page.link}
                       onClick={toggleDrawer(false)}
+                      className="text-primary"
                     >
                       <Typography
-                        sx={{ textAlign: "right", padding: 2, color: "#000" , marginLeft:"5px"}}
+                        sx={{ textAlign: "right", padding: 2, color: "#007bff " , marginLeft:"5px"}}
                       
                       >
                         {page.name}
@@ -184,11 +185,12 @@ function Navbar() {
                 sx={{
                   my: 2,
                   display: "block",
-                  fontSize: "16px",
+                  fontSize: "22px",
                   padding: "10px",
-                  color: "#000",
+                  color: "#007bff ",
+                  fontWeight:"900"
                 }}
-                  className="btn btn-outline-danger"
+               
               >
               
                 {page.name}

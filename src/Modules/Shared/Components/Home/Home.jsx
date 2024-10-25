@@ -21,6 +21,7 @@ import axios from "axios";
 import { Carousel } from "react-bootstrap";
 import Nodata from "../Nodata/Nodata";
 import LoadingPage from "../../../../LoadingPage/LoadingPage";
+import { Helmet } from "react-helmet-async";
 
 export default function CardComponent() {
   const [all_property, setAll_property] = useState([]);
@@ -58,11 +59,20 @@ export default function CardComponent() {
     get_all_properity(value);
   };
 
-
   return (
     <>
+      <Helmet>
+        <title>عقار ي منيا </title>
+        <meta name="description" content="عقار ي منيا " />
+      </Helmet>
       <Box mb={4}>
-        <Carousel data-bs-theme="white" className="w-100" interval={3000} controls={true} indicators={true}>
+        <Carousel
+          data-bs-theme="white"
+          className="w-100"
+          interval={3000}
+          controls={true}
+          indicators={true}
+        >
           {[...Array(3)].map((_, index) => (
             <Carousel.Item key={index}>
               <img
@@ -83,7 +93,11 @@ export default function CardComponent() {
 
       <h2
         className="text-center text-primary mb-3"
-        style={{ fontSize: "40px", fontWeight: "900", fontFamily: "'Roboto', sans-serif" }}
+        style={{
+          fontSize: "40px",
+          fontWeight: "900",
+          fontFamily: "'Roboto', sans-serif",
+        }}
       >
         جميع العقارات
       </h2>
@@ -103,9 +117,9 @@ export default function CardComponent() {
                     overflow: "hidden",
                     cursor: "pointer",
                     transition: "transform 0.3s",
-                    display: 'flex', // استخدام flex لجعل المحتوى يتوزع بشكل جيد
-                    flexDirection: 'column', // توجيه المحتوى عموديًا
-                    height: '100%', // جعل الكارد يتسع لارتفاع الحاوية
+                    display: "flex", // استخدام flex لجعل المحتوى يتوزع بشكل جيد
+                    flexDirection: "column", // توجيه المحتوى عموديًا
+                    height: "100%", // جعل الكارد يتسع لارتفاع الحاوية
                     "&:hover": {
                       transform: "scale(1.03)",
                     },
@@ -141,7 +155,9 @@ export default function CardComponent() {
                   >
                     {prop.status === "sell" ? "للبيع" : "للايجار"}
                   </Button>
-                  <CardContent sx={{ flexGrow: 1 }}> {/* استخدام flexGrow لتوزيع المساحة */}
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    {" "}
+                    {/* استخدام flexGrow لتوزيع المساحة */}
                     <Typography
                       variant="h6"
                       sx={{
@@ -166,36 +182,55 @@ export default function CardComponent() {
                     >
                       {prop.description}
                     </Typography>
-                    <Table size="small" sx={{ width: "100%", tableLayout: "fixed" }}>
+                    <Table
+                      size="small"
+                      sx={{ width: "100%", tableLayout: "fixed" }}
+                    >
                       <TableBody>
                         <TableRow>
-                          <TableCell sx={{ borderBottom: "none", textAlign: "center" }}>
+                          <TableCell
+                            sx={{ borderBottom: "none", textAlign: "center" }}
+                          >
                             الموقع
                           </TableCell>
-                          <TableCell sx={{ borderBottom: "none", textAlign: "center" }}>
+                          <TableCell
+                            sx={{ borderBottom: "none", textAlign: "center" }}
+                          >
                             المساحة
                           </TableCell>
-                          <TableCell sx={{ borderBottom: "none", textAlign: "center" }}>
+                          <TableCell
+                            sx={{ borderBottom: "none", textAlign: "center" }}
+                          >
                             عدد الغرف
                           </TableCell>
-                          <TableCell sx={{ borderBottom: "none", textAlign: "center" }}>
+                          <TableCell
+                            sx={{ borderBottom: "none", textAlign: "center" }}
+                          >
                             عدد الحمامات
                           </TableCell>
                         </TableRow>
                         <TableRow>
-                          <TableCell sx={{ borderBottom: "none", textAlign: "center" }}>
+                          <TableCell
+                            sx={{ borderBottom: "none", textAlign: "center" }}
+                          >
                             <i className="fa-solid fa-location-dot mx-2"></i>{" "}
                             {prop.location}
                           </TableCell>
-                          <TableCell sx={{ borderBottom: "none", textAlign: "center" }}>
+                          <TableCell
+                            sx={{ borderBottom: "none", textAlign: "center" }}
+                          >
                             <i className="fa-solid fa-house mx-2"></i>{" "}
                             {prop.area} م²
                           </TableCell>
-                          <TableCell sx={{ borderBottom: "none", textAlign: "center" }}>
+                          <TableCell
+                            sx={{ borderBottom: "none", textAlign: "center" }}
+                          >
                             <i className="fa-solid fa-bed mx-2"></i>{" "}
                             {prop.bedrooms}
                           </TableCell>
-                          <TableCell sx={{ borderBottom: "none", textAlign: "center" }}>
+                          <TableCell
+                            sx={{ borderBottom: "none", textAlign: "center" }}
+                          >
                             <i className="fa-solid fa-bath mx-2"></i>{" "}
                             {prop.bathrooms}
                           </TableCell>
@@ -234,7 +269,12 @@ export default function CardComponent() {
         }}
         className="my-3"
       >
-        <Pagination count={totalPages} page={page} onChange={handleChange} color="primary" />
+        <Pagination
+          count={totalPages}
+          page={page}
+          onChange={handleChange}
+          color="primary"
+        />
       </div>
     </>
   );

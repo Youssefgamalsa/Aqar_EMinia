@@ -10,6 +10,8 @@ import {
   Button,
   Box,
 } from "@mui/material";
+import { Helmet } from "react-helmet-async";
+
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
@@ -62,7 +64,7 @@ export default function Profile() {
       }
     );
     console.log(response);
-    getUser()
+    getUser();
   };
   const getUser = async () => {
     setLoad(true);
@@ -84,123 +86,129 @@ export default function Profile() {
     getUser();
   }, [id]);
   return (
-    <Box sx={{ flexGrow: 1, p: 3, direction: "rtl" }}>
-      <Grid
-        container
-        spacing={3}
-        justifyContent="center"
-        alignItems="center"
-        textAlign="center"
-        mb={4}
-      >
-        <Grid item xs={12}>
-          <img
-            src={profile_img}
-            alt="profile_img"
-            style={{ width: "80px", borderRadius: "50%", marginTop: "20px" }}
-          />
-          <Typography variant="h6" mt={3}>
-            {user.firstName} {user.lastName}
-          </Typography>
-          <Button variant="outlined" color="error" sx={{ mt: 2 }}>
-            {user.phone}
-          </Button>
+    <>
+      <Helmet>
+        <title> Profile Page </title>
+        <meta name="description" content="Profile Page " />
+      </Helmet>
+      <Box sx={{ flexGrow: 1, p: 3, direction: "rtl" }}>
+        <Grid
+          container
+          spacing={3}
+          justifyContent="center"
+          alignItems="center"
+          textAlign="center"
+          mb={4}
+        >
+          <Grid item xs={12}>
+            <img
+              src={profile_img}
+              alt="profile_img"
+              style={{ width: "80px", borderRadius: "50%", marginTop: "20px" }}
+            />
+            <Typography variant="h6" mt={3}>
+              {user.firstName} {user.lastName}
+            </Typography>
+            <Button variant="outlined" color="error" sx={{ mt: 2 }}>
+              {user.phone}
+            </Button>
+          </Grid>
         </Grid>
-      </Grid>
-      {load ? (
-        <LoadingPage />
-      ) : (
-        <Grid container spacing={3}>
-          {posts.map((post) => (
-            <>
-              <Grid item xs={12} md={6}>
-                <Card
-                  sx={{
-                    position: "relative",
-                    height: "100%",
-                    cursor: "pointer",
-                  }}
-                >
-                  <CardMedia
-                    component="img"
-                    image={post.images[0].url}
-                    alt="Card image cap"
-                    onClick={() => navigate(`/${post._id}`)}
+        {load ? (
+          <LoadingPage />
+        ) : (
+          <Grid container spacing={3}>
+            {posts.map((post) => (
+              <>
+                <Grid item xs={12} md={6}>
+                  <Card
                     sx={{
-                      height: { xs: 200, md: 250 }, // لضبط الارتفاع حسب الشاشة
-                      objectFit: "cover", // لجعل الصورة تظهر بالكامل مع الحفاظ على النسبة
-                    }}
-                  />
-                  <CardContent onClick={() => navigate(`/${post._id}`)}>
-                    <Typography variant="h5" component="div">
-                      {post.title}
-                    </Typography>
-                    <table style={{ width: "100%", marginTop: "16px" }}>
-                      <tbody>
-                        <tr>
-                          <td>عدد الحمامات</td>
-                          <td>عدد الغرف</td>
-                          <td>المساحه</td>
-                          <td>الموقع</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            {post.bathrooms}{" "}
-                            <i className="fa-solid fa-city mx-2"></i>
-                          </td>
-                          <td>
-                            {post.bedrooms}{" "}
-                            <i className="fa-solid fa-bed mx-2"></i>
-                          </td>
-                          <td>
-                            {post.area}{" "}
-                            <i className="fa-solid fa-house mx-2"></i>
-                          </td>
-                          <td>
-                            {post.location}{" "}
-                            <i className="fa-solid fa-location-dot mx-2"></i>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </CardContent>
-                  <Box
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      margin: "10px 0px",
-                      padding: "15px",
+                      position: "relative",
+                      height: "100%",
+                      cursor: "pointer",
                     }}
                   >
-                    <Typography variant="h6" mt={2}>
-                      {post.price} جنيه
-                    </Typography>
-                    {tree ? (
-                      <Box
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                        }}
-                      >
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => fire(post._id)}
+                    <CardMedia
+                      component="img"
+                      image={post.images[0].url}
+                      alt="Card image cap"
+                      onClick={() => navigate(`/${post._id}`)}
+                      sx={{
+                        height: { xs: 200, md: 250 }, // لضبط الارتفاع حسب الشاشة
+                        objectFit: "cover", // لجعل الصورة تظهر بالكامل مع الحفاظ على النسبة
+                      }}
+                    />
+                    <CardContent onClick={() => navigate(`/${post._id}`)}>
+                      <Typography variant="h5" component="div">
+                        {post.title}
+                      </Typography>
+                      <table style={{ width: "100%", marginTop: "16px" }}>
+                        <tbody>
+                          <tr>
+                            <td>عدد الحمامات</td>
+                            <td>عدد الغرف</td>
+                            <td>المساحه</td>
+                            <td>الموقع</td>
+                          </tr>
+                          <tr>
+                            <td>
+                              {post.bathrooms}{" "}
+                              <i className="fa-solid fa-city mx-2"></i>
+                            </td>
+                            <td>
+                              {post.bedrooms}{" "}
+                              <i className="fa-solid fa-bed mx-2"></i>
+                            </td>
+                            <td>
+                              {post.area}{" "}
+                              <i className="fa-solid fa-house mx-2"></i>
+                            </td>
+                            <td>
+                              {post.location}{" "}
+                              <i className="fa-solid fa-location-dot mx-2"></i>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </CardContent>
+                    <Box
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        margin: "10px 0px",
+                        padding: "15px",
+                      }}
+                    >
+                      <Typography variant="h6" mt={2}>
+                        {post.price} جنيه
+                      </Typography>
+                      {tree ? (
+                        <Box
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                          }}
                         >
-                          Delete
-                        </button>
-                      </Box>
-                    ) : (
-                      ""
-                    )}
-                  </Box>
-                </Card>
-              </Grid>
-            </>
-          ))}
-        </Grid>
-      )}
-    </Box>
+                          <button
+                            className="btn btn-danger"
+                            onClick={() => fire(post._id)}
+                          >
+                            Delete
+                          </button>
+                        </Box>
+                      ) : (
+                        ""
+                      )}
+                    </Box>
+                  </Card>
+                </Grid>
+              </>
+            ))}
+          </Grid>
+        )}
+      </Box>
+    </>
   );
 }

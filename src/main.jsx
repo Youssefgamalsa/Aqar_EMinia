@@ -8,11 +8,14 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthContextProvider } from "./context/AuthContext.jsx";
+import {  HelmetProvider } from "react-helmet-async";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthContextProvider>
-      <App />
+      <HelmetProvider>
+        <App />
+      </HelmetProvider>
     </AuthContextProvider>
   </StrictMode>
 );
