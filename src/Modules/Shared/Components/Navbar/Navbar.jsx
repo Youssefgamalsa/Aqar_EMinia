@@ -26,6 +26,7 @@ const pages = [
 ];
 
 function Navbar() {
+  const [token] = React.useState(localStorage.getItem("token"));
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const user = useContext(AuthContext);
@@ -33,7 +34,7 @@ function Navbar() {
   // نقل useContext خارج useEffect
   const settings = [
     { name: "My Profile", link: `/profile/${userid}` },
-    { name: "Logout", link: "auth/logout" },
+    token ? { name: "Logout", link: "auth/logout" } : "",
   ];
   useEffect(() => {
     console.log(user);
@@ -127,8 +128,12 @@ function Navbar() {
                       className="text-primary"
                     >
                       <Typography
-                        sx={{ textAlign: "right", padding: 2, color: "#007bff " , marginLeft:"5px"}}
-                      
+                        sx={{
+                          textAlign: "right",
+                          padding: 2,
+                          color: "#007bff ",
+                          marginLeft: "5px",
+                        }}
                       >
                         {page.name}
                       </Typography>
@@ -188,11 +193,9 @@ function Navbar() {
                   fontSize: "22px",
                   padding: "10px",
                   color: "#007bff ",
-                  fontWeight:"900"
+                  fontWeight: "900",
                 }}
-               
               >
-              
                 {page.name}
               </Button>
             ))}
