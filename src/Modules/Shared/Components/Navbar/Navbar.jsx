@@ -20,22 +20,25 @@ import { useEffect, useContext } from "react";
 import { AuthContext } from "../../../../context/AuthContext";
 import logo from "../../../../assets/img/logon.png";
 
-const pages = [
-  { name: "اعلن عن عقارك مجانا ", link: "/showdata" },
-  { name: "تسجيل الدخول  ", link: "/auth/login" },
-];
-
 function Navbar() {
-  const [token] = React.useState(localStorage.getItem("token"));
+  const token = React.useState(localStorage.getItem("token"));
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const user = useContext(AuthContext);
   const [userid, setUserid] = React.useState();
   // نقل useContext خارج useEffect
-  const settings = [
-    { name: "My Profile", link: `/profile/${userid}` },
-    token ? { name: "Logout", link: "auth/logout" } : "",
+
+  const pages = [
+    { name: "اعلن عن عقارك مجانا ", link: "/showdata" },
+    !token ? { name: "تسجيل الدخول  ", link: "/auth/login" } : "",
   ];
+
+  const settings = token
+    ? [
+        { name: "My Profile", link: `/profile/${userid}` },
+        { name: "Logout", link: "auth/logout" },
+      ]
+    : [{ name: "انشاء حساب جديد ", link: "/auth/register" }];
   useEffect(() => {
     console.log(user);
     setUserid(user?.userData?.id);
@@ -69,7 +72,7 @@ function Navbar() {
       sx={{
         direction: "rtl",
         backgroundColor: "white",
-        color: "#000",
+        color: "#007bff ",
         boxShadow: "none",
         position: "fixed",
         top: "0",
@@ -91,7 +94,7 @@ function Navbar() {
               fontWeight: 700,
               fontSize: "24px",
               letterSpacing: ".3rem",
-              color: "inherit",
+              color: "#007bff ",
               textDecoration: "none",
             }}
           >
@@ -103,7 +106,7 @@ function Navbar() {
               size="large"
               aria-label="menu"
               onClick={toggleDrawer(true)}
-              color="inherit"
+              color="#007bff "
             >
               <MenuIcon />
             </IconButton>
@@ -150,7 +153,7 @@ function Navbar() {
                       onClick={toggleDrawer(false)}
                     >
                       <Typography
-                        sx={{ textAlign: "right", padding: 2, color: "#000" }}
+                        sx={{ textAlign: "right", padding: 2, color: "#007bff " }}
                       >
                         {setting.name}
                       </Typography>
@@ -174,7 +177,7 @@ function Navbar() {
               fontWeight: 700,
               fontSize: "24px",
               letterSpacing: ".3rem",
-              color: "inherit",
+              color: "#007bff ",
               textDecoration: "none",
             }}
           >
