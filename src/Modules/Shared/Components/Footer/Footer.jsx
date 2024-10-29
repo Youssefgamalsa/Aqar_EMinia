@@ -61,7 +61,7 @@ export default function Footer() {
         style={{ backgroundColor: "rgba(0, 0, 0, 0.05)" }}
       >
         <a className="" href="/">
-          <img src={logo} width={"500px"} />
+          <img src={logo} width={"100px"} />
         </a>
       </div>
     </MDBFooter>
