@@ -1,4 +1,3 @@
-// import React from 'react';
 import { useNavigate } from "react-router-dom";
 import logo from "../../../../assets/img/logon.png";
 import {
@@ -15,7 +14,7 @@ export default function Footer() {
     <MDBFooter bgColor="light" className="text-center text-lg-start text-muted">
       <div className="text-center">
         <button
-          className="btn btn-primary mb-3"
+          className="btn btn-primary my-4"
           onClick={() => nav("/showdata")}
         >
           اعلن عن عقارك مجانا{" "}
@@ -25,19 +24,6 @@ export default function Footer() {
       <section className="">
         <MDBContainer className="text-center text-md-start mt-5">
           <MDBRow className="mt-3">
-            <MDBCol md="3" lg="4" xl="3" className="mx-auto mb-4">
-              <h6 className="text-uppercase fw-bold mb-4">
-                <MDBIcon icon="gem" className="me-3" />
-                <img src={logo} width={"180px"} />
-              </h6>
-              <p>
-                Here you can display your property securely and for free so that
-                the buyer can see all the apartment prices within the announced
-                area and can communicate with the site administration to
-                communicate between the buyer and the seller.
-              </p>
-            </MDBCol>
-
             <MDBCol md="4" lg="3" xl="3" className="mx-auto mb-md-0 mb-4">
               <h6 className="text-uppercase fw-bold mb-4">Contact</h6>
               <p>
@@ -55,6 +41,17 @@ export default function Footer() {
                 <MDBIcon icon="print" className="me-3" /> 01028075983
               </p>
             </MDBCol>
+            <MDBCol md="3" lg="4" xl="3" className="mx-auto mb-4">
+              <h6 className="text-uppercase fw-bold mb-4">
+                <MDBIcon icon="gem" className="me-3" />
+                <img src={logo} width={"180px"} />
+              </h6>
+              <p className="" style={{ fontSize: "20px", fontWeight: "900" }}>
+                هنا يمكنك عرض عقارك بشكل آمن ومجاني ليتمكن المشتري من رؤية كافة
+                أسعار الشقق ضمن المنطقة المعلن عنها ويستطيع التواصل مع إدارة
+                الموقع للتواصل بين البائع والمشتري.
+              </p>
+            </MDBCol>
           </MDBRow>
         </MDBContainer>
       </section>
@@ -64,7 +61,7 @@ export default function Footer() {
         style={{ backgroundColor: "rgba(0, 0, 0, 0.05)" }}
       >
         <a className="" href="/">
-          <img src={logo} width={"180px"} />
+          <img src={logo} width={"500px"} />
         </a>
       </div>
     </MDBFooter>
