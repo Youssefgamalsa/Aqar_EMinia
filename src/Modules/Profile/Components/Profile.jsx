@@ -130,7 +130,7 @@ export default function Profile() {
                   >
                     <CardMedia
                       component="img"
-                      image={post.images[0].url}
+                      image={post?.images[0]?.url}
                       alt="Card image cap"
                       onClick={() => navigate(`/${post._id}`)}
                       sx={{
