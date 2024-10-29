@@ -5,7 +5,6 @@ import {
   CardContent,
   Typography,
   Button,
-  IconButton,
   Table,
   TableBody,
   TableRow,
@@ -13,7 +12,6 @@ import {
   Box,
 } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import img from "../../../../assets/img/image.jpg"; // يمكنك استخدام الصورة الخاصة بك هنا
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -21,7 +19,10 @@ import axios from "axios";
 import { Carousel } from "react-bootstrap";
 import Nodata from "../Nodata/Nodata";
 import LoadingPage from "../../../../LoadingPage/LoadingPage";
-import { Helmet } from "react-helmet-async";
+import img10 from "../../../../assets/img/10.png";
+import img11 from "../../../../assets/img/11.png";
+import img12 from "../../../../assets/img/12.png";
+import { useForm } from "react-hook-form";
 
 export default function CardComponent() {
   const [all_property, setAll_property] = useState([]);
@@ -29,8 +30,10 @@ export default function CardComponent() {
   const [page, setPage] = useState(1);
   const nav = useNavigate();
   const [load, setLoad] = useState(true);
+  const images = [img10, img11, img12];
+  const { register, handleSubmit } = useForm();
 
-  const get_all_properity = async (pages) => {
+  const get_all_properity = async (pages, status, location) => {
     setLoad(true);
     try {
       let response = await axios.get(
@@ -38,6 +41,8 @@ export default function CardComponent() {
         {
           params: {
             page: pages,
+            status: status,
+            location: location,
           },
         }
       );
@@ -51,7 +56,8 @@ export default function CardComponent() {
   };
 
   useEffect(() => {
-    get_all_properity(1);
+    get_all_properity(1, "sell");
+    window.scrollTo(0, 20);
   }, []);
 
   const handleChange = (event, value) => {
@@ -59,12 +65,12 @@ export default function CardComponent() {
     get_all_properity(value);
   };
 
+  const handle_search = (data) => {
+    get_all_properity(page, data.status, data.location);
+  };
+
   return (
     <>
-      <Helmet>
-        <title>عقار ي منيا </title>
-        <meta name="description" content="عقار ي منيا " />
-      </Helmet>
       <Box mb={4}>
         <Carousel
           data-bs-theme="white"
@@ -73,14 +79,14 @@ export default function CardComponent() {
           controls={true}
           indicators={true}
         >
-          {[...Array(3)].map((_, index) => (
+          {images.map((imag, index) => (
             <Carousel.Item key={index}>
               <img
                 className="d-block w-100"
-                src={img}
+                src={imag}
                 alt={`Slide ${index + 1}`}
                 style={{
-                  maxHeight: "400px",
+                  height: "300px",
                   objectFit: "cover",
                   borderRadius: "10px",
                   boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
@@ -91,10 +97,42 @@ export default function CardComponent() {
         </Carousel>
       </Box>
 
+      <form
+        onSubmit={handleSubmit(handle_search)}
+        className="search_bar shadow-lg d-flex flex-column flex-md-row"
+      >
+        <select
+          className="form-select w-100 w-md-20 text-center text-md-left"
+          style={{ margin: "5px 0" }}
+          {...register("status")}
+        >
+          <option selected>نوع العقد</option>
+          <option value="rent"> ايجار</option>
+          <option value="sell"> للبيع</option>
+        </select>
+        <select
+          className="form-select w-100 w-md-20 text-center text-md-left"
+          style={{ margin: "5px 0" }}
+          {...register("location")}
+        >
+          <option selected> المدينه</option>
+          <option value="العدوه"> العدوه</option>
+          <option value="مغاغه"> مغاغه</option>
+          <option value="المنيا"> المنيا</option>
+        </select>
+        <button
+          type="submit"
+          className="btn btn-outline-danger w-100 w-md-20"
+          style={{ margin: "5px 0" }}
+        >
+          بحث
+        </button>
+      </form>
+
       <h2
-        className="text-center text-primary mb-3"
+        className="text-center text-primary my-3"
         style={{
-          fontSize: "40px",
+          fontSize: "45px",
           fontWeight: "900",
           fontFamily: "'Roboto', sans-serif",
         }}
@@ -105,7 +143,7 @@ export default function CardComponent() {
       {load ? (
         <LoadingPage />
       ) : (
-        <Grid container spacing={3} justifyContent="center">
+        <Grid container spacing={2} justifyContent="center">
           {all_property.length > 0 ? (
             all_property.map((prop) => (
               <Grid item xs={12} sm={6} md={4} key={prop._id}>
@@ -117,9 +155,9 @@ export default function CardComponent() {
                     overflow: "hidden",
                     cursor: "pointer",
                     transition: "transform 0.3s",
-                    display: "flex", // استخدام flex لجعل المحتوى يتوزع بشكل جيد
-                    flexDirection: "column", // توجيه المحتوى عموديًا
-                    height: "100%", // جعل الكارد يتسع لارتفاع الحاوية
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "100%", // اجعل ارتفاع البطاقة 100%
                     "&:hover": {
                       transform: "scale(1.03)",
                     },
@@ -133,21 +171,10 @@ export default function CardComponent() {
                     alt="Card image"
                     sx={{
                       objectFit: "cover",
-                      width: "100%", // جعل الصورة تأخذ العرض الكامل
-                      flexShrink: 0, // منع الانكماش
+                      width: "100%",
+                      flexShrink: 0,
                     }}
                   />
-                  <IconButton
-                    sx={{
-                      position: "absolute",
-                      top: 10,
-                      left: 10,
-                      color: "white",
-                      backgroundColor: "rgba(0, 0, 0, 0.5)",
-                    }}
-                  >
-                    <FavoriteIcon />
-                  </IconButton>
                   <Button
                     variant="contained"
                     color={prop.status === "sell" ? "success" : "error"}
@@ -155,100 +182,78 @@ export default function CardComponent() {
                   >
                     {prop.status === "sell" ? "للبيع" : "للايجار"}
                   </Button>
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    {" "}
-                    {/* استخدام flexGrow لتوزيع المساحة */}
+                  <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                     <Typography
                       variant="h6"
                       sx={{
                         textAlign: "right",
-                        fontSize: { xs: "1rem", sm: "1.25rem" },
+                        fontSize: "27px",
                         fontFamily: "'Roboto', sans-serif",
                       }}
                     >
                       {prop.title}
                     </Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        textAlign: "right",
-                        fontSize: {
-                          xs: "0.875rem",
-                          sm: "1rem",
-                          marginBottom: "30px",
-                        },
-                        fontFamily: "'Roboto', sans-serif",
-                      }}
-                    >
-                      {prop.description}
-                    </Typography>
-                    <Table
-                      size="small"
-                      sx={{ width: "100%", tableLayout: "fixed" }}
-                    >
+                    <Table size="small" sx={{ width: "100%", tableLayout: "fixed" }}>
                       <TableBody>
                         <TableRow>
-                          <TableCell
-                            sx={{ borderBottom: "none", textAlign: "center" }}
-                          >
+                          <TableCell sx={{ borderBottom: "none", textAlign: "center" }}>
                             الموقع
                           </TableCell>
-                          <TableCell
-                            sx={{ borderBottom: "none", textAlign: "center" }}
-                          >
+                          <TableCell sx={{ borderBottom: "none", textAlign: "center" }}>
                             المساحة
                           </TableCell>
-                          <TableCell
-                            sx={{ borderBottom: "none", textAlign: "center" }}
-                          >
-                            عدد الغرف
-                          </TableCell>
-                          <TableCell
-                            sx={{ borderBottom: "none", textAlign: "center" }}
-                          >
-                            عدد الحمامات
-                          </TableCell>
+                          {prop.bathrooms !== 0 && (
+                            <TableCell sx={{ borderBottom: "none", textAlign: "center" }}>
+                              عدد الغرف
+                            </TableCell>
+                          )}
+                          {prop.bedrooms !== 0 && (
+                            <TableCell sx={{ borderBottom: "none", textAlign: "center" }}>
+                              عدد الحمامات
+                            </TableCell>
+                          )}
                         </TableRow>
                         <TableRow>
-                          <TableCell
-                            sx={{ borderBottom: "none", textAlign: "center" }}
-                          >
-                            <i className="fa-solid fa-location-dot mx-2"></i>{" "}
-                            {prop.location}
+                          <TableCell sx={{ borderBottom: "none", textAlign: "center" }}>
+                            <i className="fa-solid fa-location-dot mx-2"></i> {prop.location}
                           </TableCell>
-                          <TableCell
-                            sx={{ borderBottom: "none", textAlign: "center" }}
-                          >
-                            <i className="fa-solid fa-house mx-2"></i>{" "}
-                            {prop.area} م²
+                          <TableCell sx={{ borderBottom: "none", textAlign: "center" }}>
+                            <i className="fa-solid fa-house mx-2"></i> {prop.area} م²
                           </TableCell>
-                          <TableCell
-                            sx={{ borderBottom: "none", textAlign: "center" }}
-                          >
-                            <i className="fa-solid fa-bed mx-2"></i>{" "}
-                            {prop.bedrooms}
-                          </TableCell>
-                          <TableCell
-                            sx={{ borderBottom: "none", textAlign: "center" }}
-                          >
-                            <i className="fa-solid fa-bath mx-2"></i>{" "}
-                            {prop.bathrooms}
-                          </TableCell>
+                          {prop.bedrooms !== 0 && (
+                            <TableCell sx={{ borderBottom: "none", textAlign: "center" }}>
+                              <i className="fa-solid fa-bed mx-2"></i> {prop.bedrooms}
+                            </TableCell>
+                          )}
+                          {prop.bathrooms !== 0 && (
+                            <TableCell sx={{ borderBottom: "none", textAlign: "center" }}>
+                              <i className="fa-solid fa-bath mx-2"></i> {prop.bathrooms}
+                            </TableCell>
+                          )}
                         </TableRow>
                       </TableBody>
                     </Table>
-                    <Typography
-                      variant="h5"
-                      sx={{
-                        textAlign: "right",
-                        marginTop: 2,
-                        fontSize: { xs: "1.25rem", sm: "1.5rem" },
-                        fontFamily: "'Roboto', sans-serif",
-                      }}
-                      className="text-primary"
-                    >
-                      {`${prop.price} جنيه`}
-                    </Typography>
+                    <Box className="d-flex justify-content-between align-content-center mt-auto">
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => nav(`/${prop._id}`)}
+                        style={{ fontSize: "16px" }}
+                      >
+                        عرض التفاصيل
+                      </button>
+                      <Typography
+                        variant="h5"
+                        sx={{
+                          textAlign: "right",
+                          marginTop: 2,
+                          fontSize: { xs: "1.25rem", sm: "1.5rem" },
+                          fontFamily: "'Roboto', sans-serif",
+                        }}
+                        className="text-primary"
+                      >
+                        {`${prop.price} جنيه`}
+                      </Typography>
+                    </Box>
                   </CardContent>
                 </Card>
               </Grid>
