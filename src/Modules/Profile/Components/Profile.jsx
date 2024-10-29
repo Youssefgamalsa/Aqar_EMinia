@@ -29,7 +29,7 @@ export default function Profile() {
 
   const userTrue = useContext(AuthContext);
   const userid = userTrue?.userData?.id;
-  const role = userTrue.userData.role;
+  const role = userTrue?.userData?.role;
   const tree = role == "admin" || userid == id;
   console.log(userTrue);
 
